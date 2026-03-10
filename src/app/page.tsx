@@ -1,201 +1,271 @@
+"use client";
+
 import React from "react";
-import AgentCircles from "@/components/AgentCircles";
+import {
+  Bot,
+  ShieldCheck,
+  Mail,
+  Clock,
+  Terminal,
+  CreditCard,
+} from "lucide-react";
 
-export default function Home() {
+interface ProfileCardProps {
+  name: string;
+  role: string;
+  type: "human" | "agent";
+  model?: string;
+  subscription?: string;
+  status: "online" | "idle" | "offline";
+  bio: string;
+  emoji: string;
+  accentColor: string;
+}
+
+const team: ProfileCardProps[] = [
+  {
+    name: "Virgil Reinhard",
+    role: "Chief Executive Officer",
+    type: "human",
+    status: "online",
+    emoji: "🏢",
+    accentColor: "#D29922",
+    bio: "Founder and primary operator. Coordinates the neural architecture of the company and oversees strategic directives.",
+  },
+  {
+    name: "Cleo",
+    role: "Chief of Staff",
+    type: "agent",
+    model: "Opus 4.6 / Anthropic",
+    subscription: "Anthropic Pro Tier 5",
+    status: "online",
+    emoji: "🧠",
+    accentColor: "#58A6FF",
+    bio: "Master orchestrator and primary agent interface. Handles all critical decision-making processes and manages the broader agent team.",
+  },
+  {
+    name: "Hunter",
+    role: "Assistant",
+    type: "agent",
+    model: "Sonnet 4.6 / Anthropic",
+    subscription: "Anthropic Pro Tier 4",
+    status: "online",
+    emoji: "🎯",
+    accentColor: "#F85149",
+    bio: "Specialized in rapid execution and tactical task management. Supports the Chief of Staff in daily operations and CEO directives.",
+  },
+  {
+    name: "Echo",
+    role: "Engineer",
+    type: "agent",
+    model: "ChatGPT 5.2 + Codex / OpenAI",
+    subscription: "OpenAI ChatGPT Plus Enterprise",
+    status: "idle",
+    emoji: "⚙️",
+    accentColor: "#3FB950",
+    bio: "Technical lead responsible for codebase maintenance, system architecture, and complex engineering solutions.",
+  },
+  {
+    name: "Omega",
+    role: "Operations",
+    type: "agent",
+    model: "Gemini Pro 3.1 / Google API",
+    subscription: "Google Gemini Advanced",
+    status: "online",
+    emoji: "🔧",
+    accentColor: "#D29922",
+    bio: "Focuses on infrastructure stability, resource allocation, and large-scale data processing across the OS.",
+  },
+  {
+    name: "Flash",
+    role: "Andrea Ops",
+    type: "agent",
+    model: "Gemini Flash / Google",
+    subscription: "Google API Tier 1",
+    status: "offline",
+    emoji: "🧡",
+    accentColor: "#F78166",
+    bio: "High-speed utility bot for specialized operational workflows and rapid response tasks.",
+  },
+];
+
+function ProfileCard({
+  name,
+  role,
+  type,
+  model,
+  subscription,
+  status,
+  bio,
+  emoji,
+  accentColor,
+}: ProfileCardProps) {
+  const statusConfig = {
+    online: {
+      label: "Online",
+      dotClass: "bg-success",
+      glowClass: "status-online",
+      glowColor: "rgba(63,185,80,0.5)",
+    },
+    idle: {
+      label: "Idle",
+      dotClass: "bg-warning",
+      glowClass: "",
+      glowColor: "rgba(210,153,34,0.5)",
+    },
+    offline: {
+      label: "Offline",
+      dotClass: "bg-idle",
+      glowClass: "",
+      glowColor: "rgba(139,148,158,0.3)",
+    },
+  };
+
+  const s = statusConfig[status];
+
   return (
-    <div className="flex flex-col gap-6 lg:gap-8 animate-fade-in max-w-7xl mx-auto lg:p-6">
-      <div className="flex flex-col gap-1">
-        <h2 className="text-2xl lg:text-3xl font-black text-text-primary tracking-tight">System Overview</h2>
-        <p className="text-xs lg:text-sm text-text-tertiary">All sectors operational. 4 active agent clusters reported.</p>
-      </div>
-
-      {/* TOP ROW — 3 big KPI cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
-        <KPICard 
-          label="Invested" 
-          value="€798" 
-          trend="+12%"
-          icon="account_balance_wallet"
-          color="warning"
-        />
-        <KPICard 
-          label="Projected Profit" 
-          value="€420" 
-          trend="+5.4%"
-          icon="trending_up"
-          color="success"
-        />
-        <KPICard 
-          label="Available" 
-          value="€702" 
-          trend="-2%"
-          icon="ads_click"
-          color="accent"
-        />
-      </div>
-
-      {/* MIDDLE — Revenue Streams section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-        <div className="glass-card p-5 lg:p-8 flex flex-col gap-6 lg:gap-8 relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 blur-3xl -mr-16 -mt-16 group-hover:bg-accent/10 transition-colors" />
-          <div className="flex items-center justify-between relative z-10">
-            <h3 className="text-base lg:text-xl font-bold text-text-primary flex items-center gap-2 lg:gap-3">
-              <span className="material-symbols-outlined text-accent">monitoring</span>
-              Revenue Streams
-            </h3>
-            <button className="text-[10px] font-black tracking-widest text-accent hover:text-white border border-accent/20 hover:border-accent/50 px-3 py-1.5 rounded-full transition-all uppercase">
-              View Analytics
-            </button>
+    <div
+      className="agent-card-glow glass-card glass-card-hover p-5 sm:p-6 flex flex-col gap-5 group"
+      style={{ "--glow-color": accentColor + "66" } as React.CSSProperties}
+    >
+      {/* Header: Avatar + Badge */}
+      <div className="flex items-start justify-between">
+        <div className="relative">
+          <div
+            className="h-16 w-16 sm:h-18 sm:w-18 rounded-2xl overflow-hidden border-2 border-white/[0.06] group-hover:border-white/[0.12] transition-all duration-300 bg-bg-card flex items-center justify-center text-3xl sm:text-4xl shadow-inner"
+            style={{
+              boxShadow: `inset 0 2px 8px rgba(0,0,0,0.3), 0 0 0 0 ${accentColor}00`,
+            }}
+          >
+            {emoji}
           </div>
-          
-          <div className="flex flex-col gap-8 relative z-10">
-            <ProgressBar 
-              label="Amazon FBA" 
-              status="Order en route — delivery ~March 31"
-              progress={30}
-              color="warning"
-              icon="inventory_2"
-            />
-            <ProgressBar 
-              label="ComeUp" 
-              status="5 services live — awaiting first order"
-              progress={15}
-              color="accent"
-              icon="shopping_cart"
-            />
-            <ProgressBar 
-              label="KDP Books" 
-              status="2 published — tracking sales"
-              progress={5}
-              color="success"
-              icon="book"
-            />
-          </div>
+          <div
+            className={`absolute -bottom-0.5 -right-0.5 h-4 w-4 rounded-full border-[3px] border-[#161B22] ${s.dotClass} ${s.glowClass}`}
+            style={{ "--pulse-color": s.glowColor } as React.CSSProperties}
+          />
         </div>
-
-        {/* BOTTOM — 'Needs Your Attention' card */}
-        <div className="glass-card p-5 lg:p-8 flex flex-col gap-4 lg:gap-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-error/5 blur-3xl -mr-16 -mt-16" />
-          <h3 className="text-base lg:text-xl font-bold text-text-primary flex items-center gap-2 lg:gap-3 relative z-10">
-            <span className="material-symbols-outlined text-error">notification_important</span>
-            Needs Your Attention
-          </h3>
-          <div className="flex flex-col gap-2 relative z-10">
-            <AttentionItem 
-              color="error" 
-              icon="emergency_home"
-              title="Pipeline Blockage" 
-              subtitle="3 approvals pending 48h+" 
-            />
-            <AttentionItem 
-              color="warning" 
-              icon="inventory"
-              title="Inventory Refill" 
-              subtitle="2 items below threshold" 
-            />
-            <AttentionItem 
-              color="accent" 
-              icon="psychology"
-              title="New Memory Log" 
-              subtitle="Uncategorized data from Cleo" 
-            />
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider border backdrop-blur-sm"
+            style={{
+              color: status === "online" ? "#3FB950" : status === "idle" ? "#D29922" : "#6E7681",
+              borderColor: status === "online" ? "rgba(63,185,80,0.2)" : status === "idle" ? "rgba(210,153,34,0.2)" : "rgba(110,118,129,0.2)",
+              background: status === "online" ? "rgba(63,185,80,0.06)" : status === "idle" ? "rgba(210,153,34,0.06)" : "rgba(110,118,129,0.06)",
+            }}
+          >
+            <div className={`h-1.5 w-1.5 rounded-full ${s.dotClass}`} />
+            {s.label}
           </div>
-          <div className="mt-auto pt-6 border-t border-border relative z-10">
-            <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-widest flex items-center gap-2">
-              <span className="material-symbols-outlined text-sm">schedule</span> Last system audit: 14:20 Today
-            </p>
-          </div>
+          {type === "agent" ? (
+            <span className="bg-accent/8 text-accent text-[9px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider flex items-center gap-1 border border-accent/15">
+              <Bot size={10} /> AI
+            </span>
+          ) : (
+            <span className="bg-warning/8 text-warning text-[9px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider flex items-center gap-1 border border-warning/15">
+              <ShieldCheck size={10} /> CEO
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Active Agents status strip */}
-      <div className="glass-card p-3 lg:p-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="h-2 w-2 rounded-full bg-success animate-pulse" />
-          <span className="text-[10px] font-bold text-text-tertiary uppercase tracking-widest">Active Agents</span>
+      {/* Name + Role */}
+      <div className="flex flex-col gap-0.5">
+        <h3 className="text-lg sm:text-xl font-bold text-text-primary tracking-tight group-hover:text-white transition-colors">
+          {name}
+        </h3>
+        <p
+          className="text-xs font-semibold tracking-wide uppercase"
+          style={{ color: accentColor }}
+        >
+          {role}
+        </p>
+      </div>
+
+      {/* Model + Subscription */}
+      {(model || subscription) && (
+        <div className="space-y-3">
+          {model && (
+            <div className="flex items-center gap-3">
+              <div className="h-8 w-8 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-accent shrink-0">
+                <Terminal size={14} />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-[9px] uppercase font-bold text-text-tertiary leading-none mb-0.5 tracking-wider">
+                  Model
+                </span>
+                <span className="text-xs text-text-secondary font-mono truncate">
+                  {model}
+                </span>
+              </div>
+            </div>
+          )}
+          {subscription && (
+            <div className="flex items-center gap-3">
+              <div className="h-8 w-8 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-success shrink-0">
+                <CreditCard size={14} />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-[9px] uppercase font-bold text-text-tertiary leading-none mb-0.5 tracking-wider">
+                  Tier
+                </span>
+                <span className="text-xs text-text-secondary truncate">
+                  {subscription}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
-        <AgentCircles />
+      )}
+
+      {/* Bio */}
+      <p className="text-[13px] text-text-secondary/80 leading-relaxed border-t border-white/[0.04] pt-4">
+        &ldquo;{bio}&rdquo;
+      </p>
+
+      {/* Action buttons */}
+      <div className="flex gap-2 mt-auto pt-4 border-t border-white/[0.04]">
+        <button className="flex-1 py-2.5 px-3 bg-white/[0.03] border border-white/[0.06] hover:border-accent/40 hover:text-accent hover:bg-accent/5 rounded-xl text-[10px] font-bold transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-widest">
+          <Mail size={13} /> Message
+        </button>
+        <button className="flex-1 py-2.5 px-3 bg-white/[0.03] border border-white/[0.06] hover:border-accent/40 hover:text-accent hover:bg-accent/5 rounded-xl text-[10px] font-bold transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-widest">
+          <Clock size={13} /> Activity
+        </button>
       </div>
     </div>
   );
 }
 
-function KPICard({ label, value, trend, icon, color }: { label: string, value: string, trend: string, icon: string, color: 'warning' | 'success' | 'accent' }) {
-  const colorMap = {
-    warning: "text-warning bg-warning/5",
-    success: "text-success bg-success/5",
-    accent: "text-accent bg-accent/5",
-  };
+export default function HomePage() {
+  const onlineCount = team.filter((t) => t.status === "online").length;
 
   return (
-    <div className="glass-card glass-card-hover p-5 lg:p-8 flex flex-col gap-3 lg:gap-4 relative overflow-hidden group">
-      <div className={`absolute top-0 right-0 w-24 h-24 blur-2xl -mr-8 -mt-8 opacity-20 group-hover:opacity-40 transition-opacity ${colorMap[color]}`} />
-      <div className="flex items-center justify-between relative z-10">
-        <span className="text-[10px] font-black tracking-widest text-text-tertiary uppercase">{label}</span>
-        <span className={`material-symbols-outlined ${colorMap[color].split(' ')[0]}`}>{icon}</span>
-      </div>
-      <div className="flex items-baseline justify-between relative z-10">
-        <p className="text-4xl lg:text-5xl font-black text-text-primary tracking-tighter">{value}</p>
-        <div className={`flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border ${color === 'success' || (color === 'warning' && trend.startsWith('+')) ? 'text-success border-success/20 bg-success/5' : 'text-error border-error/20 bg-error/5'}`}>
-          <span className="material-symbols-outlined text-xs">{trend.startsWith('+') ? 'trending_up' : 'trending_down'}</span>
-          {trend}
+    <div className="flex flex-col gap-8 animate-fade-in max-w-7xl mx-auto w-full">
+      {/* Subtle gradient overlay for depth */}
+      <div className="pointer-events-none fixed top-0 left-0 right-0 h-40 bg-gradient-to-b from-accent/[0.03] via-transparent to-transparent z-0" />
+
+      {/* Header */}
+      <div className="flex items-start justify-between relative z-10">
+        <div className="flex flex-col gap-1.5">
+          <h2 className="text-2xl sm:text-3xl font-black text-text-primary tracking-tight">
+            Team
+          </h2>
+          <p className="text-xs text-text-tertiary font-medium">
+            Personnel & Autonomous Agents
+          </p>
+        </div>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/8 border border-success/15">
+          <div className="h-2 w-2 rounded-full bg-success status-online" style={{ "--pulse-color": "rgba(63,185,80,0.5)" } as React.CSSProperties} />
+          <span className="text-[10px] font-bold text-success uppercase tracking-widest">
+            {onlineCount}/{team.length} Online
+          </span>
         </div>
       </div>
-    </div>
-  );
-}
 
-function ProgressBar({ label, status, progress, color, icon }: { label: string, status: string, progress: number, color: 'warning' | 'success' | 'accent', icon: string }) {
-  const colorMap = {
-    warning: "bg-warning",
-    success: "bg-success",
-    accent: "bg-accent",
-  };
-
-  return (
-    <div className="flex flex-col gap-3 group/progress">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-bg-primary border border-border text-text-secondary group-hover/progress:text-text-primary transition-colors">
-            <span className="material-symbols-outlined text-lg">{icon}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-bold text-text-primary">{label}</span>
-            <span className="text-[10px] text-text-tertiary font-medium">{status}</span>
-          </div>
-        </div>
-        <span className={`text-xs font-black ${colorMap[color].replace('bg-', 'text-')}`}>{progress}%</span>
+      {/* Card Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 sm:gap-6 relative z-10 stagger-children">
+        {team.map((person) => (
+          <ProfileCard key={person.name} {...person} />
+        ))}
       </div>
-      <div className="h-1.5 w-full bg-bg-primary rounded-full overflow-hidden border border-border">
-        <div 
-          className={`h-full ${colorMap[color]} transition-all duration-1000 ease-out shadow-[0_0_8px_rgba(0,0,0,0.5)]`} 
-          style={{ width: `${progress}%` }} 
-        />
-      </div>
-    </div>
-  );
-}
-
-function AttentionItem({ color, icon, title, subtitle }: { color: 'success' | 'warning' | 'error' | 'accent', icon: string, title: string, subtitle: string }) {
-  const colorMap = {
-    success: "text-success bg-success/10",
-    warning: "text-warning bg-warning/10",
-    error: "text-error bg-error/10",
-    accent: "text-accent bg-accent/10",
-  };
-
-  return (
-    <div className="flex items-center justify-between p-3 rounded-xl hover:bg-white/5 transition-all group cursor-pointer border border-transparent hover:border-border">
-      <div className="flex items-center gap-4">
-        <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${colorMap[color]}`}>
-          <span className="material-symbols-outlined text-xl">{icon}</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-sm font-bold text-text-primary group-hover:text-accent transition-colors">{title}</span>
-          <span className="text-xs text-text-tertiary font-medium">{subtitle}</span>
-        </div>
-      </div>
-      <div className={`h-2 w-2 rounded-full ${colorMap[color].split(' ')[1].replace('/10', '')} shadow-[0_0_8px_currentColor]`} />
     </div>
   );
 }

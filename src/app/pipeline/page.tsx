@@ -31,7 +31,7 @@ export default function PipelinePage() {
       </div>
 
       {/* Pill Tabs */}
-      <div className="flex flex-wrap gap-2 p-1 bg-bg-card border border-border rounded-2xl lg:rounded-full w-fit">
+      <div className="flex flex-wrap gap-2 p-1 bg-bg-card border border-border rounded-2xl lg:rounded-full w-full lg:w-fit overflow-hidden">
         {tabs.map((tab) => (
           <button
             key={tab}

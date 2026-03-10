@@ -11,11 +11,11 @@ function cn(...inputs: ClassValue[]) {
 }
 
 const navItems = [
-  { label: "Dashboard", href: "/", icon: "dashboard" },
+  { label: "Team", href: "/", icon: "group" },
+  { label: "Dashboard", href: "/dashboard", icon: "dashboard" },
   { label: "Tasks", href: "/tasks", icon: "task_alt" },
   { label: "Projects", href: "/projects", icon: "folder" },
   { label: "Pipeline", href: "/pipeline", icon: "monitoring" },
-  { label: "Team", href: "/team", icon: "group" },
   { label: "Approvals", href: "/approvals", icon: "verified_user" },
   { label: "Memory", href: "/memory", icon: "memory" },
   { label: "Settings", href: "/system", icon: "settings" },
