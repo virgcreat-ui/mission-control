@@ -8,18 +8,18 @@ export default function PipelinePage() {
   const [activeTab, setActiveTab] = useState("ALL PLATFORMS");
 
   return (
-    <div className="flex flex-col gap-8 animate-fade-in max-w-7xl mx-auto p-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="flex flex-col gap-6 lg:gap-8 animate-fade-in max-w-7xl mx-auto lg:p-6">
+      <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1">
-          <h2 className="text-3xl font-black text-text-primary tracking-tight">Revenue Pipeline</h2>
-          <p className="text-sm text-text-tertiary">Global logistics tracking and platform revenue distribution.</p>
+          <h2 className="text-2xl lg:text-3xl font-black text-text-primary tracking-tight">Revenue Pipeline</h2>
+          <p className="text-xs lg:text-sm text-text-tertiary">Global logistics tracking and platform revenue distribution.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3">
           <div className="relative">
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary text-lg">search</span>
-            <input 
-              type="text" 
-              placeholder="Track shipment ID..." 
+            <input
+              type="text"
+              placeholder="Track shipment ID..."
               className="bg-bg-card border border-border rounded-full pl-10 pr-4 py-2 text-xs text-text-primary focus:outline-none focus:border-accent/50 w-64 transition-all"
             />
           </div>
@@ -31,14 +31,14 @@ export default function PipelinePage() {
       </div>
 
       {/* Pill Tabs */}
-      <div className="flex gap-2 p-1 bg-bg-card border border-border rounded-full w-fit">
+      <div className="flex flex-wrap gap-2 p-1 bg-bg-card border border-border rounded-2xl lg:rounded-full w-fit">
         {tabs.map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-6 py-2 rounded-full text-[10px] font-black tracking-widest transition-all ${
-              activeTab === tab 
-                ? "bg-accent text-bg-primary" 
+            className={`px-4 lg:px-6 py-2 rounded-full text-[9px] lg:text-[10px] font-black tracking-widest transition-all ${
+              activeTab === tab
+                ? "bg-accent text-bg-primary"
                 : "text-text-tertiary hover:text-text-primary"
             }`}
           >
@@ -67,45 +67,45 @@ function AmazonSection() {
           </h3>
           <span className="text-[10px] font-bold text-text-tertiary">1 ACTIVE SHIPMENT</span>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+        <div className="-mx-px overflow-x-auto">
+          <table className="w-full min-w-[600px] text-left border-collapse">
             <thead>
               <tr className="border-b border-border bg-white/[0.01]">
-                <th className="px-6 py-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Order ID</th>
-                <th className="px-6 py-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Product</th>
-                <th className="px-6 py-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Revenue</th>
-                <th className="px-6 py-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Status</th>
-                <th className="px-6 py-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Date</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Order ID</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Product</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Revenue</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Status</th>
+                <th className="px-4 lg:px-6 py-3 lg:py-4 text-[10px] font-black text-text-tertiary uppercase tracking-widest">Date</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/50">
               <tr className="hover:bg-white/[0.02] transition-colors group">
-                <td className="px-6 py-4 text-xs font-bold text-accent">#AZ-99201</td>
-                <td className="px-6 py-4">
+                <td className="px-4 lg:px-6 py-3 lg:py-4 text-xs font-bold text-accent">#AZ-99201</td>
+                <td className="px-4 lg:px-6 py-3 lg:py-4">
                   <div className="flex flex-col">
                     <span className="text-xs font-bold text-text-primary">Eneloop Pro AA (8-Pack)</span>
                     <span className="text-[10px] text-text-tertiary">Electronics / Batteries</span>
                   </div>
                 </td>
-                <td className="px-6 py-4 text-xs font-black text-text-primary">€345.00</td>
-                <td className="px-6 py-4">
+                <td className="px-4 lg:px-6 py-3 lg:py-4 text-xs font-black text-text-primary">€345.00</td>
+                <td className="px-4 lg:px-6 py-3 lg:py-4">
                   <span className="px-2 py-1 rounded-full bg-warning/10 text-warning text-[9px] font-black uppercase tracking-tighter border border-warning/20">In Transit</span>
                 </td>
-                <td className="px-6 py-4 text-xs text-text-tertiary font-medium">Mar 05, 2026</td>
+                <td className="px-4 lg:px-6 py-3 lg:py-4 text-xs text-text-tertiary font-medium">Mar 05, 2026</td>
               </tr>
               <tr className="hover:bg-white/[0.02] transition-colors group">
-                <td className="px-6 py-4 text-xs font-bold text-accent">#AZ-99202</td>
-                <td className="px-6 py-4">
+                <td className="px-4 lg:px-6 py-3 lg:py-4 text-xs font-bold text-accent">#AZ-99202</td>
+                <td className="px-4 lg:px-6 py-3 lg:py-4">
                   <div className="flex flex-col">
                     <span className="text-xs font-bold text-text-primary">Mama Surprise (Little Live)</span>
                     <span className="text-[10px] text-text-tertiary">Toys / Interactive</span>
                   </div>
                 </td>
-                <td className="px-6 py-4 text-xs font-black text-text-primary">€453.00</td>
-                <td className="px-6 py-4">
+                <td className="px-4 lg:px-6 py-3 lg:py-4 text-xs font-black text-text-primary">€453.00</td>
+                <td className="px-4 lg:px-6 py-3 lg:py-4">
                   <span className="px-2 py-1 rounded-full bg-warning/10 text-warning text-[9px] font-black uppercase tracking-tighter border border-warning/20">In Transit</span>
                 </td>
-                <td className="px-6 py-4 text-xs text-text-tertiary font-medium">Mar 05, 2026</td>
+                <td className="px-4 lg:px-6 py-3 lg:py-4 text-xs text-text-tertiary font-medium">Mar 05, 2026</td>
               </tr>
             </tbody>
           </table>

@@ -28,7 +28,7 @@ export default function Sidebar() {
   return (
     <aside
       className={cn(
-        "relative flex flex-col border-r border-border bg-bg-primary transition-all duration-300 ease-in-out z-50",
+        "relative hidden lg:flex flex-col border-r border-border bg-bg-primary transition-all duration-300 ease-in-out z-50",
         isCollapsed ? "w-20" : "w-64"
       )}
     >

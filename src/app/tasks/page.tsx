@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 type Priority = 'high' | 'medium' | 'low';
 type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE';
@@ -25,23 +25,59 @@ const tasks: Task[] = [
   { id: '8', title: 'Durg Barnet KDP publish', agent: 'Cleo', priority: 'high', dueDate: 'Mar 9', status: 'DONE' },
 ];
 
+const statusTabs: { label: string; value: TaskStatus; icon: string; iconColor: string }[] = [
+  { label: "TODO", value: "TODO", icon: "radio_button_unchecked", iconColor: "text-text-tertiary" },
+  { label: "IN PROGRESS", value: "IN_PROGRESS", icon: "play_circle", iconColor: "text-warning" },
+  { label: "DONE", value: "DONE", icon: "check_circle", iconColor: "text-success" },
+];
+
 export default function TasksPage() {
+  const [mobileTab, setMobileTab] = useState<TaskStatus>("TODO");
   const getTasksByStatus = (status: TaskStatus) => tasks.filter(t => t.status === status);
 
   return (
-    <div className="flex flex-col gap-8 animate-fade-in max-w-7xl mx-auto p-6">
+    <div className="flex flex-col gap-6 lg:gap-8 animate-fade-in max-w-7xl mx-auto lg:p-6">
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-1">
-          <h2 className="text-3xl font-black text-text-primary tracking-tight">Task Board</h2>
-          <p className="text-sm text-text-tertiary">Orchestrating autonomous agents and manual workflows.</p>
+          <h2 className="text-2xl lg:text-3xl font-black text-text-primary tracking-tight">Task Board</h2>
+          <p className="text-xs lg:text-sm text-text-tertiary">Orchestrating autonomous agents and manual workflows.</p>
         </div>
-        <button className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent text-bg-primary text-xs font-black uppercase tracking-widest hover:bg-white transition-colors">
+        <button className="flex items-center gap-2 px-4 lg:px-5 py-2 lg:py-2.5 rounded-full bg-accent text-bg-primary text-[10px] lg:text-xs font-black uppercase tracking-widest hover:bg-white transition-colors">
           <span className="material-symbols-outlined text-lg">add</span>
-          New Task
+          <span className="hidden sm:inline">New Task</span>
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+      {/* Mobile: tab switcher */}
+      <div className="flex lg:hidden gap-1 p-1 bg-bg-card border border-border rounded-xl">
+        {statusTabs.map((tab) => (
+          <button
+            key={tab.value}
+            onClick={() => setMobileTab(tab.value)}
+            className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-[9px] font-black tracking-widest transition-all ${
+              mobileTab === tab.value
+                ? "bg-accent text-bg-primary"
+                : "text-text-tertiary"
+            }`}
+          >
+            <span className={`material-symbols-outlined text-sm ${mobileTab === tab.value ? "" : tab.iconColor}`}>{tab.icon}</span>
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Mobile: single column */}
+      <div className="lg:hidden">
+        <Column
+          title={statusTabs.find(t => t.value === mobileTab)!.label}
+          tasks={getTasksByStatus(mobileTab)}
+          icon={statusTabs.find(t => t.value === mobileTab)!.icon}
+          iconColor={statusTabs.find(t => t.value === mobileTab)!.iconColor}
+        />
+      </div>
+
+      {/* Desktop: 3-column grid */}
+      <div className="hidden lg:grid grid-cols-3 gap-6 items-start">
         <Column title="TODO" tasks={getTasksByStatus('TODO')} icon="radio_button_unchecked" iconColor="text-text-tertiary" />
         <Column title="IN PROGRESS" tasks={getTasksByStatus('IN_PROGRESS')} icon="play_circle" iconColor="text-warning" />
         <Column title="DONE" tasks={getTasksByStatus('DONE')} icon="check_circle" iconColor="text-success" />
@@ -50,21 +86,21 @@ export default function TasksPage() {
   );
 }
 
-function Column({ title, tasks, icon, iconColor }: { title: string, tasks: Task[], icon: string, iconColor: string }) {
+function Column({ title, tasks: columnTasks, icon, iconColor }: { title: string, tasks: Task[], icon: string, iconColor: string }) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between px-2">
         <div className="flex items-center gap-2">
           <span className={`material-symbols-outlined text-sm ${iconColor}`}>{icon}</span>
           <h3 className="text-[10px] font-black text-text-primary uppercase tracking-widest">{title}</h3>
-          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-bg-card text-text-tertiary border border-border">{tasks.length}</span>
+          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-bg-card text-text-tertiary border border-border">{columnTasks.length}</span>
         </div>
         <button className="p-1 rounded text-text-tertiary hover:bg-bg-card transition-colors">
           <span className="material-symbols-outlined text-sm">more_horiz</span>
         </button>
       </div>
       <div className="flex flex-col gap-3">
-        {tasks.map(task => (
+        {columnTasks.map(task => (
           <TaskCard key={task.id} task={task} />
         ))}
         <button className="w-full py-3 rounded-xl border border-dashed border-border text-text-tertiary hover:text-text-primary hover:border-accent/30 hover:bg-white/5 transition-all flex items-center justify-center gap-2 text-xs font-bold">
