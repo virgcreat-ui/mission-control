@@ -4,9 +4,9 @@ import AgentCircles from "@/components/AgentCircles";
 export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-6 lg:gap-8 animate-fade-in max-w-7xl mx-auto lg:p-6">
-      <div className="flex flex-col gap-1">
-        <h2 className="text-2xl lg:text-3xl font-black text-text-primary tracking-tight">System Overview</h2>
-        <p className="text-xs lg:text-sm text-text-tertiary">All sectors operational. 4 active agent clusters reported.</p>
+      <div className="flex flex-col gap-1 border-b border-white/5 pb-6">
+        <h2 className="text-2xl lg:text-4xl font-black text-white tracking-[0.2em] uppercase">System Overview</h2>
+        <p className="text-xs lg:text-sm text-text-tertiary font-medium">All sectors operational. 4 active agent clusters reported.</p>
       </div>
 
       {/* TOP ROW — 3 big KPI cards */}

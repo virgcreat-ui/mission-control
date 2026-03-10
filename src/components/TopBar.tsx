@@ -2,10 +2,10 @@ import { Search, Bell } from "lucide-react";
 
 export default function TopBar() {
   return (
-    <header className="sticky top-0 z-40 flex h-14 lg:h-16 w-full items-center justify-between px-4 lg:px-6 bg-bg-primary/80 backdrop-blur-xl border-b border-border">
+    <header className="sticky top-0 z-40 flex h-14 lg:h-18 w-full items-center justify-between px-4 lg:px-8 bg-black/60 backdrop-blur-2xl border-b border-white/5">
       {/* Mobile: title only */}
       <div className="lg:hidden">
-        <span className="text-sm font-black tracking-[0.15em] text-white uppercase">Mission Control</span>
+        <span className="text-[10px] font-black tracking-[0.3em] text-white uppercase">Mission Control</span>
       </div>
 
       {/* Desktop: search bar */}

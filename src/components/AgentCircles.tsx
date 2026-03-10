@@ -48,8 +48,8 @@ const agents: Agent[] = [
 
 export default function AgentCircles() {
   return (
-    <section className="flex items-center gap-6">
-      <div className="flex items-center gap-2 pr-6 border-r border-gray-800">
+    <section className="flex items-center gap-6 overflow-x-auto no-scrollbar max-w-full">
+      <div className="flex items-center gap-2 pr-6 border-r border-gray-800 shrink-0">
         <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-tertiary">
           Agents
         </h2>

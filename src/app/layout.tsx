@@ -17,7 +17,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#0D1117",
+  themeColor: "#000000",
 };
 
 import Sidebar from "@/components/Sidebar";
@@ -34,11 +34,11 @@ export default function RootLayout({
       <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
       </head>
-      <body className={`${inter.variable} font-sans antialiased flex h-screen bg-bg-primary overflow-hidden`}>
+      <body className={`${inter.variable} font-sans antialiased flex h-full w-full overflow-hidden bg-bg-primary`}>
         <Sidebar />
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex-1 flex flex-col min-w-0 w-full overflow-hidden">
           <TopBar />
-          <main className="flex-1 overflow-y-auto overflow-x-hidden px-5 py-5 lg:p-10 pb-24 lg:pb-10">
+          <main className="flex-1 overflow-y-auto overflow-x-hidden w-full px-5 py-5 lg:p-10 pb-24 lg:pb-10 relative">
             {children}
           </main>
         </div>

@@ -28,15 +28,15 @@ export default function Sidebar() {
   return (
     <aside
       className={cn(
-        "relative hidden lg:flex flex-col border-r border-border bg-bg-primary transition-all duration-300 ease-in-out z-50",
+        "relative hidden lg:flex flex-col border-r border-white/5 bg-black transition-all duration-300 ease-in-out z-50",
         isCollapsed ? "w-20" : "w-64"
       )}
     >
-      <div className="flex flex-col h-24 justify-center px-6 border-b border-border">
+      <div className="flex flex-col h-24 justify-center px-6 border-b border-white/5">
         {!isCollapsed ? (
-          <div className="flex flex-col">
-            <span className="text-sm font-black tracking-[0.2em] text-white uppercase">Mission Control</span>
-            <span className="text-[10px] font-bold text-accent uppercase tracking-wider">CEO Cockpit</span>
+          <div className="flex flex-col gap-1">
+            <span className="text-sm font-black tracking-[0.3em] text-white uppercase">Mission Control</span>
+            <span className="text-[10px] font-bold text-accent uppercase tracking-widest opacity-80">CEO Cockpit</span>
           </div>
         ) : (
           <div className="mx-auto h-8 w-8 rounded-lg bg-accent/20 flex items-center justify-center">
