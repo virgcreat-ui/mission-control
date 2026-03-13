@@ -1,15 +1,10 @@
 "use client";
 
-interface Agent {
-  name: string;
-  role: string;
-  avatar: string;
-  glowColor: string;
-  status: "active" | "busy" | "idle" | "error";
-}
+import type { MCAgent } from "@/types/missionControl";
 
-const agents: Agent[] = [
+const defaultAgents: MCAgent[] = [
   {
+    id: "cleo",
     name: "Cleo",
     role: "Leader",
     avatar: "/avatars/cleo.png",
@@ -17,6 +12,7 @@ const agents: Agent[] = [
     status: "active",
   },
   {
+    id: "flash",
     name: "Flash",
     role: "Assistant",
     avatar: "/avatars/flash.png",
@@ -24,6 +20,7 @@ const agents: Agent[] = [
     status: "active",
   },
   {
+    id: "echo",
     name: "Echo",
     role: "Research",
     avatar: "/avatars/echo.png",
@@ -31,6 +28,7 @@ const agents: Agent[] = [
     status: "active",
   },
   {
+    id: "omega",
     name: "Omega",
     role: "Builder",
     avatar: "/avatars/omega.png",
@@ -38,6 +36,7 @@ const agents: Agent[] = [
     status: "busy",
   },
   {
+    id: "hunter",
     name: "Hunter",
     role: "Delegatee",
     avatar: "/avatars/hunter.png",
@@ -46,25 +45,41 @@ const agents: Agent[] = [
   },
 ];
 
-export default function AgentCircles() {
+export default function AgentCircles({ agents }: { agents?: MCAgent[] }) {
+  const list = agents?.length ? agents : defaultAgents;
+  const allOnline = list.every((a) => a.status !== "error");
+
   return (
     <section className="flex items-center gap-6 overflow-x-auto no-scrollbar max-w-full">
       <div className="flex items-center gap-2 pr-6 border-r border-gray-800 shrink-0">
         <h2 className="text-[10px] font-bold uppercase tracking-widest text-text-tertiary">
           Agents
         </h2>
-        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-success/10 border border-success/20">
-          <div className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-          <span className="text-[10px] font-bold text-success uppercase">All Online</span>
+        <div
+          className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full border ${
+            allOnline
+              ? "bg-success/10 border-success/20"
+              : "bg-warning/10 border-warning/20"
+          }`}
+        >
+          <div
+            className={`h-1.5 w-1.5 rounded-full ${
+              allOnline ? "bg-success" : "bg-warning"
+            } animate-pulse`}
+          />
+          <span
+            className={`text-[10px] font-bold uppercase ${
+              allOnline ? "text-success" : "text-warning"
+            }`}
+          >
+            {allOnline ? "All Online" : "Degraded"}
+          </span>
         </div>
       </div>
-      
+
       <div className="flex items-center gap-4">
-        {agents.map((agent) => (
-          <div
-            key={agent.name}
-            className="flex items-center gap-2 group cursor-pointer"
-          >
+        {list.map((agent) => (
+          <div key={agent.id} className="flex items-center gap-2 group cursor-pointer">
             {/* Avatar with glow ring */}
             <div className="relative">
               {/* Outer glow */}
@@ -102,6 +117,7 @@ export default function AgentCircles() {
                 }}
               />
             </div>
+
             {/* Name & Role */}
             <div className="flex flex-col -space-y-0.5">
               <span className="text-[11px] font-bold text-text-primary">

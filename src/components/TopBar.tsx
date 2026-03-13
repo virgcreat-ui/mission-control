@@ -1,11 +1,32 @@
+"use client";
+
+import * as React from "react";
 import { Search, Bell } from "lucide-react";
 
+function nowLabel() {
+  return new Date().toLocaleString("fr-FR", {
+    weekday: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+}
+
 export default function TopBar() {
+  const [ts, setTs] = React.useState(nowLabel());
+
+  React.useEffect(() => {
+    const t = setInterval(() => setTs(nowLabel()), 1000);
+    return () => clearInterval(t);
+  }, []);
+
   return (
     <header className="sticky top-0 z-40 flex h-14 lg:h-18 w-full items-center justify-between px-4 lg:px-8 bg-black/60 backdrop-blur-2xl border-b border-white/5">
       {/* Mobile: title only */}
       <div className="lg:hidden">
-        <span className="text-[10px] font-black tracking-[0.3em] text-white uppercase">Mission Control</span>
+        <span className="text-[10px] font-black tracking-[0.3em] text-white uppercase">
+          Mission Control
+        </span>
       </div>
 
       {/* Desktop: search bar */}
@@ -14,9 +35,16 @@ export default function TopBar() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-text-tertiary group-focus-within:text-accent transition-colors" />
           <input
             type="text"
-            placeholder="Search OS..."
+            placeholder="Search OS…"
             className="w-full h-10 bg-bg-card border border-border rounded-xl pl-10 pr-4 text-sm text-text-primary focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-all placeholder:text-text-tertiary"
           />
+        </div>
+      </div>
+
+      {/* Desktop: time */}
+      <div className="hidden lg:flex items-center justify-center flex-1">
+        <div className="px-3 py-1.5 rounded-full border border-white/5 bg-bg-card text-[10px] font-black tracking-[0.25em] text-text-tertiary uppercase">
+          {ts}
         </div>
       </div>
 
@@ -28,15 +56,13 @@ export default function TopBar() {
 
         <div className="hidden lg:flex items-center gap-3 pl-2 border-l border-border">
           <div className="flex flex-col items-end">
-            <span className="text-xs font-semibold text-text-primary">Virgil Reinhard</span>
+            <span className="text-xs font-semibold text-text-primary">
+              Virgil Reinhard
+            </span>
             <span className="text-[10px] text-text-tertiary">CEO</span>
           </div>
           <button className="h-9 w-9 rounded-full overflow-hidden ring-2 ring-accent/30 hover:ring-accent/60 transition-all">
-            <img
-              src="/avatars/omega.png"
-              alt="Virgil"
-              className="h-full w-full object-cover"
-            />
+            <img src="/avatars/omega.png" alt="Virgil" className="h-full w-full object-cover" />
           </button>
         </div>
       </div>
